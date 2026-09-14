@@ -49,7 +49,7 @@ def lista_turma():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     # Executa consulta SQL
-    cursor.execute('select id, semestre, curso.nome, professor.nome from turma join curso on curso.id=turma.curso_id join professor on professor.id=turma.professor_id')
+    cursor.execute('select turma.id, semestre, curso.nome_curso, professor.nome from turma join curso on curso.id=turma.curso_id join professor on professor.id=turma.professor_id')
     # Obtém todos os registros
     lista = cursor.fetchall()
     # Fecha conexão
