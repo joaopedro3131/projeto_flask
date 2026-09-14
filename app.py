@@ -38,7 +38,7 @@ def lista_professor():
     lista = cursor.fetchall()
     # Fecha conexão
     conn.close()
-    return render_template('professor/lista.html', lista=lista)
+    return render_template('professor/lista.html', lista=lista) 
 
 
 
