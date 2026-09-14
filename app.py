@@ -52,7 +52,7 @@ def lista_turma():
     cursor.execute('select turma.id, semestre, curso.nome_curso, professor.nome from turma join curso on curso.id=turma.curso_id join professor on professor.id=turma.professor_id')
     # Obtém todos os registros
     lista = cursor.fetchall()
-    # Fecha conexão
+    # Fecha conexão teste
     conn.close()
     return render_template('turma/lista.html', lista=lista)
 
