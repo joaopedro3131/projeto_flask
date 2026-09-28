@@ -2,6 +2,7 @@
 from flask import Flask, render_template
 import dao.aluno_dao import AlunoDAO
 import dao.professor_dao import ProfessorDAO
+import dao.turma_dao import TurmaDAO
 
 app = Flask(__name__)
 
@@ -28,17 +29,9 @@ def lista_professor():
 
 @app.route('/turma')
 def lista_turma():
-    # Conecta ao banco de dados
-    conn =db_config.get_connection()
-    cursor = conn.cursor()
-    # Executa consulta SQL
-    cursor.execute('select turma.id, semestre, curso.nome_curso, professor.nome from turma join curso on curso.id=turma.curso_id join professor on professor.id=turma.professor_id')
-    # Obtém todos os registros
-    lista = cursor.fetchall()
-    # Fecha conexão teste
-    conn.close()
+    dao=TurmaDAO()
+    lista = dao.listar_turmas()
     return render_template('turma/lista.html', lista=lista)
-
 
 
 @app.route('/contato')
