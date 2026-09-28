@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template
-import sqlite3
-
+import dao.aluno_dao import AlunoDAO
+import dao.professor_dao import ProfessorDAO
 
 app = Flask(__name__)
 
@@ -14,39 +14,22 @@ def home():
 
 @app.route('/aluno')
 def lista_aluno():
-    # Conecta ao banco de dados
-    DB_PATH = "banco_escola.db"
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    # Executa consulta SQL
-    cursor.execute('SELECT id, nome, idade, cidade FROM aluno')
-    # Obtém todos os registros
-    lista = cursor.fetchall()
-    # Fecha conexão
-    conn.close()
+    dao=AlunoDAO()
+    lista = dao.listar_alunos()
     return render_template('aluno/lista.html', lista=lista)
 
 @app.route('/professor')
 def lista_professor():
-    # Conecta ao banco de dados
-    DB_PATH = "banco_escola.db"
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    # Executa consulta SQL
-    cursor.execute('SELECT id, nome, disciplina FROM professor')
-    # Obtém todos os registros
-    lista = cursor.fetchall()
-    # Fecha conexão
-    conn.close()
-    return render_template('professor/lista.html', lista=lista) 
+    dao=ProfessorDAO()
+    lista = dao.listar_professores()
+    return render_template('professor/lista.html', lista=lista)
 
 
 
 @app.route('/turma')
 def lista_turma():
     # Conecta ao banco de dados
-    DB_PATH = "banco_escola.db"
-    conn = sqlite3.connect(DB_PATH)
+    conn =db_config.get_connection()
     cursor = conn.cursor()
     # Executa consulta SQL
     cursor.execute('select turma.id, semestre, curso.nome_curso, professor.nome from turma join curso on curso.id=turma.curso_id join professor on professor.id=turma.professor_id')
