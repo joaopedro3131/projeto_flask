@@ -45,13 +45,17 @@ def saudacao2():
     return render_template('saudacao/saudacao.html', valor_recebido=nome)
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['PO'])
 def login():
     usuario = request.form['usuario']
     senha = request.form['senha']
     email = request.form['email']
     dados = f"Usuário: {usuario}, Senha: {senha}, E-mail: {email}"
     return render_template('saudacao/saudacao.html', valor_recebido=dados)
+
+
+
+    
 
 
 @app.route('/contato')
