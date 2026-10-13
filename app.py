@@ -37,12 +37,12 @@ def lista_turma():
 
 @app.route('/saudacao1/<nome>')
 def saudacao1(nome):
-    return render_template('saudacao/saudacao1.html', valor_recebido=nome)
+    return render_template('saudacao/saudacao.html', valor_recebido=nome)
 
 @app.route('/saudacao2/')
-def saudacao2(nome):
+def saudacao2():
     nome=request.args.get('nome')
-    return render_template('saudacao/saudacao1.html', valor_recebido=nome)
+    return render_template('saudacao/saudacao.html', valor_recebido=nome)
 
 
 @app.route('/contato')
