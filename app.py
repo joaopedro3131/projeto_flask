@@ -51,6 +51,7 @@ def login():
     senha = request.form['senha']
     email = request.form['email']
     dados = f"Usuário: {usuario}, Senha: {senha}, E-mail: {email}"
+    
     return render_template('saudacao/saudacao.html', valor_recebido=dados)
 
 
