@@ -1,8 +1,8 @@
 
-from flask import Flask, render_template
-import dao.aluno_dao import AlunoDAO
-import dao.professor_dao import ProfessorDAO
-import dao.turma_dao import TurmaDAO
+from flask import Flask, render_template, request
+from dao.aluno_dao import AlunoDAO
+from dao.professor_dao import ProfessorDAO
+from dao.turma_dao import TurmaDAO
 
 app = Flask(__name__)
 
@@ -32,6 +32,17 @@ def lista_turma():
     dao=TurmaDAO()
     lista = dao.listar_turmas()
     return render_template('turma/lista.html', lista=lista)
+
+
+
+@app.route('/saudacao1/<nome>')
+def saudacao1(nome):
+    return render_template('saudacao/saudacao1.html', valor_recebido=nome)
+
+@app.route('/saudacao2/')
+def saudacao2(nome):
+    nome=request.args.get('nome')
+    return render_template('saudacao/saudacao1.html', valor_recebido=nome)
 
 
 @app.route('/contato')

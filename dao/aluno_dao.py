@@ -1,6 +1,6 @@
 from dao.db_config import get_connection
 
-class alunoDAO:
+class AlunoDAO:
 
     sqlSelect = "SELECT id, nome, idade, cidade FROM aluno"
 
