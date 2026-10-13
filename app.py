@@ -45,6 +45,14 @@ def saudacao2():
     return render_template('saudacao/saudacao.html', valor_recebido=nome)
 
 
+@app.route('/login', methods=['POST'])
+def login():
+    usuario = request.form['usuario']
+    senha = request.form['senha']
+    dados = f"Usuário: {usuario}, Senha: {senha}"
+    return render_template('saudacao/saudacao.html', valor_recebido=dados)
+
+
 @app.route('/contato')
 def contato():
     return render_template('contato.html')
