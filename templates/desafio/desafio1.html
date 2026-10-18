@@ -3,15 +3,15 @@
 <h1 class="mb-4">{{ valor_recebido }}</h1>
 
 
-<a href="/saudacao1/João"> Parâmetro de Rota</a> <br> <br>
-<a href="/saudacao2/?nome=Maria"> Query String </a> <br> <br>
+<a href="/cadastrar/?nome=Maria"> Query String </a> <br> <br>
 
 
-       <form action="/login" method="POST">
-            <label type="text" name ="usuario" placeholder="login"> <br> <br>
-            <input type="password" name ="senha" placeholder="senha"> <br> <br>
-            <input type="email" name ="email" placeholder="email"> <br> <br>
-            <button type="submit">Enviar</button>
+       <form action="/cadastrar" method="POST">
+            <input type="text" name ="nome" placeholder="Nome" required> <br> <br>
+            <input type="date" name ="data_nascimento" required> <br> <br>
+            <input type="text" name ="cpf" placeholder="CPF" required> <br> <br>
+            <input type="email" name ="nome_mae" placeholder="Nome da Mãe" required> <br> <br>
+            <input type="submit" value="Enviar">
         </form>
 
 

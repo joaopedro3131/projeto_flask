@@ -54,6 +54,21 @@ def login():
     
     return render_template('saudacao/saudacao.html', valor_recebido=dados)
 
+@app.route('/desafio1/')
+def desafio1():
+    nome=request.args.get('nome')
+    return render_template('desafio/desafio1.html', valor_recebido=nome)
+
+@app.route('/cadastrar', methods=['POST'])
+def cadastrar():
+    nome = request.form['nome']
+    data_nascimento = request.form['data_nascimento']
+    cpf = request.form['cpf']
+    nome_mae = request.form['nome_mae']
+    dados = f"Nome: {nome}, Data de Nascimento: {data_nascimento}, CPF: {cpf}, Nome da Mãe: {nome_mae}"
+    
+    return render_template('desafio/desafio1.html', valor_recebido=dados)
+
 
 
     
