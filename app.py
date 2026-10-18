@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, flash
 from dao.aluno_dao import AlunoDAO
 from dao.professor_dao import ProfessorDAO
 from dao.turma_dao import TurmaDAO
@@ -18,6 +18,15 @@ def lista_aluno():
     dao=AlunoDAO()
     lista = dao.listar_alunos()
     return render_template('aluno/lista.html', lista=lista)
+
+@app.route('/aluno/form')
+def form_aluno():
+    return render_template('aluno/form.html',aluno=None)
+
+
+
+
+
 
 @app.route('/professor')
 def lista_professor():
