@@ -5,6 +5,7 @@ from dao.professor_dao import ProfessorDAO
 from dao.turma_dao import TurmaDAO
 
 app = Flask(__name__)
+app.secret_key = 'uma_chave_muito_secreta_e_unica'
 
 @app.route('/')
 def home():
@@ -22,6 +23,20 @@ def lista_aluno():
 @app.route('/aluno/form')
 def form_aluno():
     return render_template('aluno/form.html',aluno=None)
+
+@app.route('/aluno/salvar/', methods=['POST'])
+def salvar_aluno(id=None):
+    nome = request.form['nome']
+    idade= request.form['idade']
+    cidade= request.form['cidade']
+    dao = AlunoDAO()
+    result=dao.salvar(id, nome, idade, cidade)
+    if result["status"] == "ok":
+        flash("Aluno cadastrado com sucesso!", "success")
+    else:
+        flash(result["mensagem"], "danger")
+    return redirect('/aluno')
+
 
 
 
