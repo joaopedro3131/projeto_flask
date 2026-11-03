@@ -28,7 +28,7 @@ class AlunoDAO:
             conn.close()
 
 
-def buscar_por_id(self, id):
+    def buscar_por_id(self, id):
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT id, nome, idade, cidade FROM aluno WHERE id = %s", (id,))
@@ -36,7 +36,7 @@ def buscar_por_id(self, id):
         conn.close()
         return registro
 
-def remover(self,id):
+    def remover(self,id):
         conn = get_connection()
         cursor = conn.cursor()
         try:

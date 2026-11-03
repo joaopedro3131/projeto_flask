@@ -1,0 +1,32 @@
+{% include 'cabecalho.html' %}
+
+<div class="container mt-3">
+    <h1 class="mb-4">{% if professor %}Editar{% else %}Cadastrar{% endif %} Professor</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <form action="{% if professor %}/professor/salvar/{{ professor[0] }}{% else %}/professor/salvar/{% endif %}" method="POST">
+    
+                <!-- Nome -->
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" value="{% if professor %}{{ professor[1] }}{% endif %}" required>
+                </div>
+        
+                <!-- Disciplina -->
+                <div class="mb-3">
+                    <label for="disciplina" class="form-label">Disciplina</label>
+                    <input type="text" class="form-control" id="disciplina" name="disciplina" value="{% if professor %}{{ professor[2] }}{% endif %}" required>
+                </div>
+
+                <!-- Botões -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a href="/professor" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+  
+{% include 'rodape.html' %}
