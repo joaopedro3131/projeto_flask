@@ -1,38 +1,47 @@
 {% include 'cabecalho.html' %}
 
-<div class="container mt-3">
-    <h1 class="mb-4">{% if turma %}Editar{% else %}Cadastrar{% endif %} Turma</h1>
+<h1 class="mb-4">{% if turma %}Editar Turma{% else %}Cadastrar Turma{% endif %}</h1>
 
-    <div class="row">
-        <div class="col-12">
-            <form action="{% if turma %}/turma/salvar/{{ turma[0] }}{% else %}/turma/salvar/{% endif %}" method="POST">
-    
-                <!-- Semestre -->
-                <div class="mb-3">
-                    <label for="semestre" class="form-label">Semestre</label>
-                    <input type="text" class="form-control" id="semestre" name="semestre" value="{% if turma %}{{ turma[1] }}{% endif %}" placeholder="Ex: 2024.1" required>
-                </div>
-        
-                <!-- Curso -->
-                <div class="mb-3">
-                    <label for="curso" class="form-label">Curso</label>
-                    <input type="text" class="form-control" id="curso" name="curso" value="{% if turma %}{{ turma[2] }}{% endif %}" required>
-                </div>
+<div class="row">
+  <div class="col-12">
+    <!-- Ajustado a rota para salvar dados se for nova turma ou edição -->
+    <form action="{% if turma %}/turma/salvar/{{ turma[0] }}{% else %}/turma/salvar/{% endif %}" method="POST">
+      
+      <!-- Semestre -->
+      <div class="mb-3">
+        <label for="semestre" class="form-label">Semestre</label>
+        <input type="text" class="form-control" id="semestre" name="semestre" value="{% if turma %}{{ turma[1] }}{% endif %}" required>
+      </div>
 
-                <!-- Nome (Professor) -->
-                <div class="mb-3">
-                    <label for="nome" class="form-label">Professor</label>
-                    <input type="text" class="form-control" id="nome" name="nome" value="{% if turma %}{{ turma[3] }}{% endif %}" required>
-                </div>
-        
-                <!-- Botões -->
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                    <a href="/turma" class="btn btn-secondary">Cancelar</a>
-                </div>
-            </form>
-        </div>
-    </div>
+      <!-- Curso (CÓDIGO EXATO DO SEU SLIDE COM PROTEÇÃO PARA CADASTRO) -->
+      <div class="mb-3">
+        <label for="curso_id" class="form-label">Curso</label>
+        <select name="curso_id" id="curso_id" class="form-select" required>
+          <option value="" disabled {% if not turma %}selected{% endif %}>Selecione um curso...</option>
+          {% for curso in lista_cursos %}
+            <option value="{{ curso[0] }}" {% if turma and curso[0] == turma[2] %} selected {% endif %}>{{ curso[1] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Professor -->
+      <div class="mb-3">
+        <label for="professor_id" class="form-label">Professor</label>
+        <select name="professor_id" id="professor_id" class="form-select" required>
+          <option value="" disabled {% if not turma %}selected{% endif %}>Selecione um professor...</option>
+          {% for professor in lista_professores %}
+            <option value="{{ professor[0] }}" {% if turma and professor[0] == turma[3] %}selected{% endif %}>{{ professor[1] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Botões -->
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="/turma" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
 </div>
 
 {% include 'rodape.html' %}

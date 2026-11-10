@@ -4,6 +4,7 @@ from dao.aluno_dao import AlunoDAO
 from dao.professor_dao import ProfessorDAO
 from dao.turma_dao import TurmaDAO
 
+
 app = Flask(__name__)
 app.secret_key = 'uma_chave_muito_secreta_e_unica'
 
@@ -104,48 +105,73 @@ def remover_professor(id):
     return redirect('/professor')
 
 
+
+
 @app.route('/turma')
-def lista_turma():
-    dao = TurmaDAO()
-    lista = dao.listar_turmas()
+def listar_todas_turmas():
+    lista = TurmaDAO().listar_turmas()
     return render_template('turma/lista.html', lista=lista)
 
+# --- SEU CÓDIGO DA ROTA FORM (Adaptado para a segunda opção e turma=None) ---
 @app.route('/turma/form')
-def form_turma():
-    return render_template('turma/form.html', turma=None)
+def lista_turma():
+    # Usando o nome correto do seu método do ProfessorDAO (Segunda Opção)
+    lista_professores = ProfessorDAO().listar_professores()
+    
+    # Lista de cursos criada manualmente aqui para suprir a falta do CursoDAO
+    lista_cursos = [
+        (1, "Informática"),
+        (2, "Administração"),
+        (3, "Enfermagem"),
+        (4, "Eletrotécnica")
+    ]
+    return render_template('turma/form.html', turma=None, lista_professores=lista_professores, lista_cursos=lista_cursos)
 
+# --- SEU CÓDIGO DA ROTA SALVAR ---
 @app.route('/turma/salvar/', methods=['POST'])
 @app.route('/turma/salvar/<int:id>', methods=['POST'])
 def salvar_turma(id=None):
     semestre = request.form['semestre']
-    curso = request.form['curso']
-    nome = request.form['nome']
-    
+    curso_id = request.form['curso_id']
+    professor_id = request.form['professor_id']
+
     dao = TurmaDAO()
-    result = dao.salvar(id, semestre, curso, nome)
-    
-    if result["status"] == "ok":
+    resultado = dao.salvar(id, semestre, curso_id, professor_id)
+
+    if resultado["status"] == "ok":
         flash("Turma salva com sucesso!", "success")
     else:
-        flash(result["mensagem"], "danger")
+        flash(resultado["mensagem"], "danger")
         
     return redirect('/turma')
 
+# --- SEU CÓDIGO DA ROTA EDITAR (Adaptado com a segunda opção) ---
 @app.route('/turma/editar/<int:id>')
 def editar_turma(id):
-    dao = TurmaDAO()
-    turma = dao.buscar_por_id(id)
-    return render_template('turma/form.html', turma=turma)
+    lista_professores = ProfessorDAO().listar_professores()
+    
+    lista_cursos = [
+        (1, "Informática"),
+        (2, "Administração"),
+        (3, "Enfermagem"),
+        (4, "Eletrotécnica")
+    ]
+    
+    turma = TurmaDAO().buscar_por_id(id)
+    return render_template('turma/form.html', turma=turma, lista_professores=lista_professores, lista_cursos=lista_cursos)
 
+# --- SEU CÓDIGO DA ROTA REMOVER ---
 @app.route('/turma/remover/<int:id>')
 def remover_turma(id):
     dao = TurmaDAO()
-    result = dao.remover(id)
-    if result["status"] == "ok":
+    resultado = dao.remover(id)
+    if resultado["status"] == "ok":
         flash("Turma removida com sucesso!", "success")
     else:
-        flash(result["mensagem"], "danger")
+        flash(resultado["mensagem"], "danger")
     return redirect('/turma')
+
+
 
 
 
