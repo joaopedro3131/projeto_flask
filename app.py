@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, flash
 from dao.aluno_dao import AlunoDAO
 from dao.professor_dao import ProfessorDAO
 from dao.turma_dao import TurmaDAO
+from dao.matricula_dao import MatriculaDAO
 
 
 app = Flask(__name__)
@@ -170,6 +171,56 @@ def remover_turma(id):
     else:
         flash(resultado["mensagem"], "danger")
     return redirect('/turma')
+
+
+
+
+# --- ROTAS DE MATRÍCULA CORRIGIDAS ---
+
+@app.route('/matricula')
+def listar_matriculas():
+    lista = MatriculaDAO().listar_matriculas()
+    return render_template('matricula/lista.html', lista=lista)
+
+@app.route('/matricula/form')
+def formulario_matricula():
+    lista_alunos = AlunoDAO().listar_alunos()
+    lista_turmas = TurmaDAO().listar_turmas()
+    return render_template('matricula/form.html', matricula=None, lista_alunos=lista_alunos, lista_turmas=lista_turmas)
+
+@app.route('/matricula/salvar', methods=['POST'])
+@app.route('/matricula/salvar/<int:id>', methods=['POST'])
+def salvar_matricula(id=None):
+    aluno_id = request.form['aluno_id']
+    turma_id = request.form['turma_id']
+
+    dao = MatriculaDAO()
+    resultado = dao.salvar(id, aluno_id, turma_id)
+
+    if resultado["status"] == "ok":
+        flash("Matrícula realizada com sucesso!", "success")
+    else:
+        flash(resultado["mensagem"], "danger")
+        
+    return redirect('/matricula')
+
+@app.route('/matricula/editar/<int:id>')
+def editar_matricula(id):
+    lista_alunos = AlunoDAO().listar_alunos()
+    lista_turmas = TurmaDAO().listar_turmas()
+    matricula = MatriculaDAO().buscar_por_id(id)
+    return render_template('matricula/form.html', matricula=matricula, lista_alunos=lista_alunos, lista_turmas=lista_turmas)
+
+@app.route('/matricula/remover/<int:id>')
+def remover_matricula(id):
+    dao = MatriculaDAO()
+    resultado = dao.remover(id)
+    if resultado["status"] == "ok":
+        flash("Matrícula removida com sucesso!", "success")
+    else:
+        flash(resultado["mensagem"], "danger")
+    return redirect('/matricula')
+
 
 
 
